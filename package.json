@@ -1,0 +1,51 @@
+{
+  "name": "price-tracker-ts",
+  "version": "1.0.0",
+  "description": "YOUR DESCRIPTION",
+  "main": "index.ts",
+  "scripts": {
+    "start": "npx ts-node src/index.ts",
+    "start:source": "npx tsc && node out/index.ts",
+    "build": "npx tsc",
+    "watch": "npx tsc src/index.ts --watch",
+    "test": "npx jest",
+    "lint": "npx eslint src/*.ts",
+    "lint:fix": "npx eslint src/*.ts --fix",
+    "format": "npx prettier src/*.ts --write",
+    "dev": "npx ts-node-dev --respawn src/index"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/fabiogaliano/price-tracker-ts"
+  },
+  "author": "YOUR NAME <YOUR EMAIL>",
+  "license": "YOUR LICENSE",
+  "bugs": {
+    "url": "https://github.com/fabiogaliano/price-tracker-ts/issues"
+  },
+  "homepage": "https://github.com/fabiogaliano/price-tracker-ts#readme",
+  "devDependencies": {
+    "@types/jest": "^29.5.0",
+    "@types/node": "^18.15.11",
+    "@typescript-eslint/eslint-plugin": "^5.57.1",
+    "@typescript-eslint/parser": "^5.57.1",
+    "eslint": "^8.37.0",
+    "eslint-config-node": "^4.1.0",
+    "eslint-config-prettier": "^8.8.0",
+    "eslint-config-standard": "^17.0.0",
+    "eslint-plugin-import": "^2.27.5",
+    "eslint-plugin-node": "^11.1.0",
+    "eslint-plugin-prettier": "^4.2.1",
+    "eslint-plugin-promise": "^6.1.1",
+    "jest": "^29.5.0",
+    "prettier": "^2.8.7",
+    "ts-jest": "^29.1.0",
+    "ts-node": "^10.9.1",
+    "ts-node-dev": "^2.0.0",
+    "typescript": "^5.0.3"
+  },
+  "keywords": [
+    "key",
+    "words"
+  ]
+}
