@@ -1,7 +1,7 @@
-import axios from 'axios';
-import { load } from 'cheerio';
-import { data, saveData } from './db';
-import { notify } from 'node-notifier';
+const axios = require('axios');
+const { load } = require('cheerio');
+const { data, saveData } = require('./db');
+const { notify } = require('node-notifier');
 
 async function fetchPrice(url: string, selector: string): Promise<number> {
   const response = await axios.get(url);
@@ -11,17 +11,23 @@ async function fetchPrice(url: string, selector: string): Promise<number> {
   return Number(price);
 }
 
-type CurrentPrice = { price: number; date: string };
+export interface CurrentPrice {
+  price: number;
+  date: string;
+}
+export interface CurrentPriceHstry extends CurrentPrice {
+  percentage: number;
+}
 export interface Product {
   index: number;
   name: string;
   url: string;
   selector: string;
   state: CurrentPrice;
-  history: CurrentPrice[];
+  history: CurrentPriceHstry[];
 }
 
-export async function checkPrice(product: Product) {
+async function checkPrice(product: Product) {
   const fetchedPrice = await fetchPrice(product.url, product.selector);
   if (product.state.price === null || fetchedPrice !== product.state.price) {
     // see the difference in %
@@ -31,7 +37,10 @@ export async function checkPrice(product: Product) {
 
     // push old state to history
     const i = product.index;
-    data.products[i].history.push(product.state);
+    data.products[i].history.push({
+      ...product.state,
+      percentage: roundedPercentage,
+    });
 
     // update new state
     data.products[i].state = {
@@ -49,7 +58,7 @@ export async function checkPrice(product: Product) {
   }
 }
 
-export async function addProduct(name, url, selector) {
+async function addProduct(name: string, url: string, selector: string) {
   const price = await fetchPrice(url, selector);
 
   const product: Product = {
@@ -70,13 +79,14 @@ export async function addProduct(name, url, selector) {
   console.log(`${product.name}: $${product.state.price}`);
 }
 
-export function listProducts() {
-  data.products.forEach((product, index) => {
+function listProducts() {
+  console.log(data.products);
+  data.products.forEach((product: Product, index: number) => {
     console.log(`[${index}] ${product.name}: $${product.state.price}`);
   });
 }
 
-export function deleteProduct(index) {
+function deleteProduct(index: number) {
   const product = data.products[index];
   if (product) {
     data.products.splice(index, 1);
@@ -86,3 +96,10 @@ export function deleteProduct(index) {
     console.error(`Product not found: ${index}`);
   }
 }
+
+module.exports = {
+  deleteProduct,
+  listProducts,
+  addProduct,
+  checkPrice,
+};

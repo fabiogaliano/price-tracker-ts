@@ -2,18 +2,24 @@ import { existsSync, readFileSync, writeFileSync } from 'fs';
 import { join } from 'path';
 import { Product } from './utils';
 
-export let data: { products: Product[] } = {
+let data: { products: Product[] } = {
   products: [],
 };
 
 const dataFile = join(__dirname, 'data.json');
 
-export function saveData() {
+function saveData() {
   writeFileSync(dataFile, JSON.stringify(data));
 }
 
-export function loadData() {
+function loadData() {
   if (existsSync(dataFile)) {
     data = JSON.parse(readFileSync(dataFile, 'utf-8'));
   }
 }
+
+module.exports = {
+  data,
+  saveData,
+  loadData,
+};

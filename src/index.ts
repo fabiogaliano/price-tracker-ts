@@ -1,10 +1,17 @@
-import { program } from 'commander';
-import { addProduct, checkPrice, deleteProduct, listProducts } from './utils';
-import { data, loadData } from './db';
+import { Product } from './utils';
+
+const { program } = require('commander');
+const {
+  addProduct,
+  checkPrice,
+  deleteProduct,
+  listProducts,
+} = require('./utils');
+const { data, loadData } = require('./db');
 
 loadData();
 
-data.products.forEach((product) => {
+data.products.forEach((product: Product) => {
   checkPrice(product);
   setInterval(() => checkPrice(product), 12 * 60 * 60 * 1000); // Check price every 12 hours
 });
